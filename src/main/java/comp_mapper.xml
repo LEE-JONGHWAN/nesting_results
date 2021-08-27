@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comp_mapper">
+	<select id="getEmployeeAndDeptData"
+		parameterType="java.util.Map" resultMap="deptResult">
+		SELECT * FROM dept WHERE
+		deptid = #{deptId}
+	</select>
+
+	<resultMap id="deptResult" type="Dept">
+		<collection property="employee" javaType="ArrayList"
+			column="deptid" ofType="Employee" select="selectEmp" />
+	</resultMap>
+	
+	<select id="selectEmp" resultType="Employee">
+		SELECT * FROM Employee WHERE
+		deptid = #{deptId}
+	</select>
+
+
+
+
+</mapper>
