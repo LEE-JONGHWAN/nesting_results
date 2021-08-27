@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="channel_mapper">
+	<select id="getChannelAndViewers" resultMap="channelResult">
+		select * from show_channel
+	</select>
+	
+	<resultMap id="channelResult" type="ShowChannel">
+		<collection property="viewers" javaType="ArrayList"
+			column="chanId" ofType="ShowViewer" select="selectViewers" />
+	</resultMap>
+
+	<select id="selectViewers" resultType="ShowViewer">
+		select v.* from show_viewer v
+		join favorites f on f.userId = v.userId
+		where f.chanId = #{chanId}
+	</select>
+	
+	
+</mapper>
